@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Arkham LCG - Tokens</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+    <script src="/assets/main.js"></script>
+</head>
+<body>
+    <div class='container'>
+        <div class='col-xs-12 col-md-6'>
+            <div class='js-view' data-view='token-current'>
+            <script type='text/x-handlebars-template'>
+                <img src='/assets/tokens/{{name}}.png' class='img-responsive img-token'/>
+            </script>
+            </div>
+        </div>
+        <div class='col-xs-12 col-md-6'>
+            <div class='js-view' data-view='token-list'>
+            <script type='text/x-handlebars-template'>
+            </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

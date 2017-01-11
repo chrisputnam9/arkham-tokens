@@ -1,0 +1,14 @@
+body {
+    margin: 40px 0 0 0;
+    background: #111;
+}
+
+.img-token {
+    background: #222;
+    box-sizing: content-box;
+    border-radius: 1000px;
+    width: 90px;
+    margin: 0 auto;
+    padding: 10px;
+    box-shadow: #333 0 0 15px;
+}
