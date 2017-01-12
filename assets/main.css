@@ -1,14 +1,59 @@
 body {
     margin: 40px 0 0 0;
     background: #111;
+    color: #888;
+    font-family: 'Homemade Apple', cursive;
 }
 
-.img-token {
+.token-current {
+    margin-bottom: 50px;
+}
+
+.token-current .img-token {
     background: #222;
     box-sizing: content-box;
     border-radius: 1000px;
     width: 90px;
+    height: 90px;
     margin: 0 auto;
     padding: 10px;
     box-shadow: #333 0 0 15px;
+}
+
+.token-list {
+    position: relative;
+}
+
+.token-list .img-token {
+    float: right;
+    max-width: 60px;
+    margin-bottom: 20px;
+}
+
+.token-list span.count {
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    display: block;
+    width: 22px;
+    height: 22px;
+    border-radius: 30px;
+    padding: 3px;
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+    background: #973b3b;
+    color: #fff;
+    box-shadow: #000 0 0 10px;
+}
+
+.img-token.disabled {
+    opacity: .3;
+}
+
+.img-token:hover,
+.img-token.disabled:hover
+{
+    opacity: .8;
+    cursor: pointer;
 }
