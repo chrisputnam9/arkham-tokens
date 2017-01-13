@@ -1,33 +1,65 @@
 body {
-    margin: 40px 0 0 0;
     background: #111;
     color: #888;
     font-family: 'Homemade Apple', cursive;
+    margin-bottom: 40px;
 }
 
-.token-current {
-    margin-bottom: 50px;
+.play-area {
+    padding: 20px 0 0;
 }
 
-.token-current .img-token {
-    background: #222;
-    box-sizing: content-box;
-    border-radius: 1000px;
-    width: 90px;
-    height: 90px;
-    margin: 0 auto;
-    padding: 10px;
-    box-shadow: #333 0 0 15px;
+.play-area a {
+    font-size: 2.5em;
+    text-align: center;
+    width: 30px;
+    max-width: 100%;
+    margin: 0 auto 20px;
+    display: block;
+    text-shadow: #333 0 0 10px;
 }
+.play-area a:hover,
+.play-area a:active,
+.play-area a:focus
+{
+    text-decoration: none;
+    text-shadow: #444 0 0 10px;
+    outline: 0;
+    border: 0;
+}
+
+.play-area a.draw { color: #5bce6d; }
+.play-area a.reset { color: #973b3b; } 
+.play-area a.share { color: #5ca0c7; opacity: .2; } 
+.play-area a.settings { color: #aaa; opacity: .2; }
 
 .token-list {
     position: relative;
 }
+.token-list.token-current {
+    min-height: 110px;
+    padding-top: 20px;
+}
+.token-list.token-available {
+    border: 5px solid #222;
+    margin-top: 20px;
+    padding-top: 10px;
+}
 
 .token-list .img-token {
-    float: right;
-    max-width: 60px;
-    margin-bottom: 20px;
+    width: 60px;
+    max-width: 100%;
+    margin: 0 auto 10px;
+}
+.token-list.token-current .img-token{
+    width: 60px;
+    height: 60px;
+    background: #222;
+    box-sizing: content-box;
+    border-radius: 1000px;
+    margin: 0 auto 20px;
+    padding: 1px;
+    box-shadow: #333 0 0 15px;
 }
 
 .token-list span.count {
@@ -40,8 +72,9 @@ body {
     border-radius: 30px;
     padding: 3px;
     position: absolute;
-    bottom: 20px;
-    right: 10px;
+    bottom: 12px;
+    left: 50%;
+    margin-left: 8px;
     background: #973b3b;
     color: #fff;
     box-shadow: #000 0 0 10px;
@@ -56,4 +89,18 @@ body {
 {
     opacity: .8;
     cursor: pointer;
+}
+
+.credits {
+    font-family:arial;
+    font-size: .7em;
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    text-align: center;
+    opacity: .3;
+}
+
+.credits:hover {
+    opacity: .9;
 }
