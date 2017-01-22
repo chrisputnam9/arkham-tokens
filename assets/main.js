@@ -13,13 +13,15 @@
         remaining: [],
         remainingFlat: [],
 
+        configObj: null,
         config: null,
+        in_settings: false,
         
         drawnView: null,
         remainingView: null,
 
         // Kick it
-        init: function(config) {
+        init: function(configObj) {
             var self = Tokens.Controller;
 
             // Views
@@ -27,10 +29,14 @@
             self.drawnView = Tokens.View.get('token-current');
             self.remainingView = Tokens.View.get('token-list');
 
-            self.config = config;
+            self.configObj = configObj;
+            self.config = self.configObj.get('night_of_the_zealot').easy,
             self.reset();
             $('.js-draw').on('click', self.draw);
             $('.js-reset').on('click', self.reset);
+            $('.js-settings').on('click', self.settingsToggle);
+
+            $('.token-available').on('click', '.js-count-toggle', self.countToggle);
         },
 
         draw: function () {
@@ -58,15 +64,49 @@
                 return self.draw();
             }
 
+            self._reset();
+
+            self.render();
+        },
+
+        settingsToggle: function () {
+            var self = Tokens.Controller,
+                $button = $(this);
+            $button.toggleClass('glyphicon-cog');
+            $button.toggleClass('glyphicon-ok');
+            self.in_settings = !self.in_settings;
+            $('.play-area a').not('.js-settings').parent().toggle();
+            $('.token-list.token-current').parent().toggle();
+            self._reset();
+            self.render();
+        },
+
+        countToggle: function () {
+            var self = Tokens.Controller,
+                $toggle = $(this),
+                token = $toggle.data('token'),
+                delta = parseInt($toggle.data('delta'));
+            if (token in self.config) {
+                self.config[token]+=delta;
+                if (self.config[token] < 0) {
+                    self.config[token] = 0;
+                }
+            }
+            self._reset();
+            self.render();
+        },
+
+        _reset: function () {
+            var self = Tokens.Controller;
+
             self.drawn = [];
             self.remaining = [];
             self.remainingFlat = [];
 
             // List out all tokens
-            var scenario = self.config.get('night_of_the_zealot'),
-                c = 0;
+            var c = 0;
 
-            $.each(scenario.easy, function(name, count) {
+            $.each(self.config, function(name, count) {
                 var object = {
                     'name': name,
                     'count': count,
@@ -78,8 +118,6 @@
                 }
                 c++;
             });
-
-            self.render();
         },
 
         render: function () {
@@ -113,7 +151,7 @@
 
         renderRemaining: function () {
             var self = Tokens.Controller;
-            self.remainingView.render({'tokens':self.remaining});
+            self.remainingView.render({'tokens':self.remaining, 'in_settings':self.in_settings});
         }
     }
 

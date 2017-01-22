@@ -23,10 +23,10 @@
                     <a class='js-reset reset glyphicon glyphicon-refresh' href='#reset' title='Reset'></a>
                 </div>
                 <div class='col-xs-3 col-sm-12'>
-                    <a class='js-share share glyphicon glyphicon-share' href='#share' title='Share'></a>
+                    <a class='js-settings settings glyphicon glyphicon-cog' href='#settings' title='Settings'></a>
                 </div>
                 <div class='col-xs-3 col-sm-12'>
-                    <a class='js-settings settings glyphicon glyphicon-cog' href='#settings' title='Settings'></a>
+                    <a class='js-share share disabled glyphicon glyphicon-share' href='#share' title='Share'></a>
                 </div>
             </div>
 
@@ -53,6 +53,13 @@
 
                     {{#if count}}
                         <span class='count'>{{count}}</span>
+                    {{/if}}
+
+                    {{#if ../in_settings}}
+                        <div class='count-toggle-container'>
+                            <span class="js-count-toggle count-toggle count-toggle-up glyphicon glyphicon-chevron-up" data-token="{{name}}" data-delta="1"></span>
+                            <span class="{{#if count}}js-count-toggle {{/if}}count-toggle count-toggle-down glyphicon glyphicon-chevron-down {{#unless count}}disabled{{/unless}}" data-token="{{name}}" data-delta="-1"></span>
+                        </div>
                     {{/if}}
 
                     </div>
