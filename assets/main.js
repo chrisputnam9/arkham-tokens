@@ -131,19 +131,14 @@
                 drawnLength = self.drawn.length,
                 columns;
 
-            switch (drawnLength) {
-                case 1:
-                    columns = 12;
-                    break;
-                case 2:
-                    columns = 6;
-                    break;
-                case 3:
-                    columns = 4;
-                    break;
-                default:
-                    columns = 3;
-                    break;
+            if (drawnLength < 2) {
+                columns = 12;
+            } else if (drawnLength < 5) {
+                columns = 6;
+            } else if (drawnLength < 10) {
+                columns = 4;
+            } else {
+                columns = 3;
             }
 
             self.drawnView.render({'tokens':self.drawn, 'columns': columns});
