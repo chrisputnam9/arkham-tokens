@@ -1,11 +1,5 @@
 (function($) {
 
-    /* Document Ready */
-    $(function() {
-        // Prep some views
-        Tokens.Config.init(Tokens.Controller.init);
-    });
-
     window.Tokens = {};
 
     Tokens.Controller = {
@@ -142,11 +136,13 @@
             }
 
             self.drawnView.render({'tokens':self.drawn, 'columns': columns});
+            $(window).trigger('tokens-refresh');
         },
 
         renderRemaining: function () {
             var self = Tokens.Controller;
             self.remainingView.render({'tokens':self.remaining, 'in_settings':self.in_settings});
+            $(window).trigger('tokens-refresh');
         }
     }
 
@@ -216,5 +212,33 @@
         }
 
     };
+
+    // Kick everything off:
+
+    // Prep some views
+    Tokens.Config.init(Tokens.Controller.init);
+
+    $(window).on('delayed-resize tokens-refresh', function (event) {
+        $('.col-square').parent().each(function() {
+            var $parent = $(this),
+                $squares = $parent.find('.col-square'),
+                maxWidth = 0;
+
+            $squares.each(function() {
+                var width = Math.ceil($(this).outerWidth());
+                if (width > maxWidth) {
+                    maxWidth = width;
+                }
+            });
+            $squares.css({'height': maxWidth + 'px'});
+        });
+    }); 
+
+    $(window).on('resize', function() {
+        if(this.resizeTO) clearTimeout(this.resizeTO);
+        this.resizeTO = setTimeout(function() {
+            $(this).trigger('delayed-resize');
+        }, 200);
+    });
 
 })(jQuery);

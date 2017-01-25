@@ -13,30 +13,37 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Homemade+Apple" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./assets/main.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
-    <script src="./assets/main.js"></script>
 </head>
 <body>
     <div class='container'>
 
         <div class='col-xs-12 play-area'>
-            <div class='col-xs-12 col-sm-1'>
-                <div class='col-xs-3 col-sm-12'>
-                    <a class='js-draw draw glyphicon glyphicon-plus' href='#draw' title='Draw'></a>
-                </div>
-                <div class='col-xs-3 col-sm-12'>
-                    <a class='js-reset reset glyphicon glyphicon-refresh' href='#reset' title='Reset'></a>
-                </div>
+
+            <div class='col-xs-12 col-sm-1 ui ui-secondary'>
                 <div class='col-xs-3 col-sm-12'>
                     <a class='js-settings settings glyphicon glyphicon-cog' href='#settings' title='Settings'></a>
                 </div>
                 <div class='col-xs-3 col-sm-12'>
                     <a class='js-share share disabled glyphicon glyphicon-share' href='#share' title='Share'></a>
                 </div>
+                <div class='col-xs-3 col-sm-12'>
+                    <a class='js-lock lock disabled glyphicon glyphicon-lock' href='#lock' title='Lock'></a>
+                </div>
+                <div class='col-xs-3 col-sm-12'>
+                    <a class='js-help help disabled glyphicon glyphicon-question-sign' href='#help' title='Help'></a>
+                </div>
             </div>
 
-            <div class='col-xs-12 col-sm-11'>
+            <div class='col-xs-12 col-sm-1 ui ui-primary'>
+                <div class='col-xs-6 col-sm-12'>
+                    <a class='js-draw draw glyphicon glyphicon-plus' href='#draw' title='Draw'></a>
+                </div>
+                <div class='col-xs-6 col-sm-12'>
+                    <a class='js-reset reset glyphicon glyphicon-refresh' href='#reset' title='Reset'></a>
+                </div>
+            </div>
+
+            <div class='col-xs-12 col-sm-10'>
                 <div class='js-view token-list token-current' data-view='token-current'>
                 <script type='text/x-handlebars-template'>
                     {{#each tokens}}
@@ -47,13 +54,14 @@
                 </script>
                 </div>
             </div>
+
         </div>
 
         <div class='col-xs-12  token-list token-available'>
             <div class='js-view' data-view='token-list'>
             <script type='text/x-handlebars-template'>
                 {{#each tokens}}
-                    <div class='col-xs-3 col-sm-3 col-md-2'>
+                    <div class='col-xs-3 col-sm-3 col-md-2 col-square'>
 
                         <img src='./assets/tokens/{{name}}.png' class='img-responsive img-token {{#unless count}}disabled{{/unless}}'/>
 
@@ -63,8 +71,16 @@
 
                     {{#if ../in_settings}}
                         <div class='count-toggle-container'>
-                            <span class="js-count-toggle count-toggle count-toggle-up glyphicon glyphicon-chevron-up" data-token="{{name}}" data-delta="1"></span>
-                            <span class="{{#if count}}js-count-toggle {{/if}}count-toggle count-toggle-down glyphicon glyphicon-chevron-down {{#unless count}}disabled{{/unless}}" data-token="{{name}}" data-delta="-1"></span>
+                            <div class="js-count-toggle count-toggle count-toggle-up" data-token="{{name}}" data-delta="1">
+                                <div class="count-toggle--inner-container">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </div>
+                            </div>
+                            <div class="{{#if count}}js-count-toggle {{/if}}count-toggle count-toggle-down {{#unless count}}disabled{{/unless}}" data-token="{{name}}" data-delta="-1">
+                                <div class="count-toggle--inner-container">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </div>
+                            </div>
                         </div>
                     {{/if}}
 
@@ -75,9 +91,23 @@
         </div>
         <div class='col-xs-12 credits'>
             <b>Credits:</b>
-            <a href='http://glyphicons.com/' target='_blank'>Glyphicons</a>
+            <a href='https://arkhamdb.com' target='_blank'>ArkhamDB</a>
+            | <a href='http://glyphicons.com/' target='_blank'>Glyphicons</a>
             | <a href='http://lotr-lcg-quest-companion.com/all_chaosbags.php?idselected=AHCS_tg' target='_blank'>LOTR LCG Companion</a>
         </div>
     </div>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-10303097-7', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+    <script src="./assets/main.js"></script>
 </body>
 </html>
