@@ -167,3 +167,22 @@ body {
 .col-square {
     padding: 15px;
 }
+
+/**
+ * Breakpoint Reference
+ * https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css
+ */
+
+/* XS */
+@media (max-width: 767px) {
+
+}
+
+/* SM and higher*/
+@media (min-width: 768px) {
+    .token-list span.count {
+        font-size: 2em;
+        width: 35px;
+        height: 35px;
+    }
+}
