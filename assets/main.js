@@ -26,27 +26,47 @@
             self.configObj = configObj;
             self.config = self.configObj.get('night_of_the_zealot').easy,
             self.reset();
-            $('.js-draw').on('click', self.draw);
+            $('.js-draw').on('click', self.drawRandom);
             $('.js-reset').on('click', self.reset);
             $('.js-settings').on('click', self.settingsToggle);
-
+            $('.js-manual-draw').on('click', '.img-token.enabled', self.drawManual);
             $('.token-available').on('click', '.js-count-toggle', self.countToggle);
         },
 
-        draw: function () {
+        drawRandom: function () {
             var self = Tokens.Controller,
                 max = self.remainingFlat.length,
-                random,drawn;
+                random,token;
 
             if (max <= 0) { return; }
 
             // Random number between 0 and (length-1)
             random = Math.floor(Math.random() * max),
-            drawn = self.remainingFlat[random];
 
-            self.drawn.push({'name': drawn.name});
-            self.remainingFlat.splice(random, 1);
-            self.remaining[drawn.index].count-= 1;
+            console.log(random);
+
+            token = self.remainingFlat[random];
+
+            console.log(token);
+
+            self.draw(token);
+        },
+
+        drawManual: function () {
+            Tokens.Controller.draw($(this).data('index'));
+        },
+
+        draw(token)
+        {
+            var self = Tokens.Controller;
+
+            if (typeof(token) == 'number') {
+                token = self.remaining[token];
+            }
+
+            self.drawn.push({'name': token.name});
+            self.remainingFlat.splice(token.index, 1);
+            self.remaining[token.index].count-= 1;
 
             self.render();
         },
@@ -55,7 +75,7 @@
             var self = Tokens.Controller;
 
             if (self.remainingFlat.length > 0 && self.drawn.length == 0) {
-                return self.draw();
+                return self.drawRandom();
             }
 
             self._reset();

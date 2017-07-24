@@ -67,13 +67,13 @@
 
         </div>
 
-        <div class='col-xs-12  token-list token-available'>
+        <div class='col-xs-12  token-list token-available js-manual-draw'>
             <div class='js-view' data-view='token-list'>
             <script type='text/x-handlebars-template'>
                 {{#each tokens}}
                     <div class='col-xs-3 col-sm-3 col-md-2 col-square'>
 
-                        <img src='./assets/tokens/{{name}}.png' class='img-responsive img-token {{#unless count}}disabled{{/unless}}'/>
+                        <img src='./assets/tokens/{{name}}.png' class='img-responsive img-token {{#if count}}enabled{{else}}disabled{{/if}}' data-index='{{@index}}'/>
 
                     {{#if count}}
                         <span class='count'>{{count}}</span>
