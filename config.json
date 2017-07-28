@@ -1,42 +1,38 @@
 {
-    "night_of_the_zealot": {
-        "easy": {
-            "cultist": 1,
-            "elderone": 0,
-            "eldersign": 1,
-            "gravestone": 1,
-            "skull": 2,
-            "terror": 1,
-            "plus1": 2,
-            "zero": 3,
-            "minus1": 3,
-            "minus2": 2,
-            "minus3": 0,
-            "minus4": 0,
-            "minus5": 0,
-            "minus6": 0,
-            "minus7": 0,
-            "minus8": 0
-        }
-    },
     "default": {
-        "empty": {
-            "cultist": 0,
-            "elderone": 0,
-            "eldersign": 0,
-            "gravestone": 0,
-            "skull": 0,
-            "terror": 0,
-            "plus1": 0,
-            "zero": 0,
-            "minus1": 0,
-            "minus2": 0,
-            "minus3": 0,
-            "minus4": 0,
-            "minus5": 0,
-            "minus6": 0,
-            "minus7": 0,
-            "minus8": 0
-        }
+        "cultist": 1,
+        "elderone": 0,
+        "eldersign": 1,
+        "gravestone": 1,
+        "skull": 2,
+        "terror": 1,
+        "plus1": 2,
+        "zero": 3,
+        "minus1": 3,
+        "minus2": 2,
+        "minus3": 0,
+        "minus4": 0,
+        "minus5": 0,
+        "minus6": 0,
+        "minus7": 0,
+        "minus8": 0
+    },
+    "empty": {
+        "cultist": 0,
+        "elderone": 0,
+        "eldersign": 0,
+        "gravestone": 0,
+        "skull": 0,
+        "terror": 0,
+        "plus1": 0,
+        "zero": 0,
+        "minus1": 0,
+        "minus2": 0,
+        "minus3": 0,
+        "minus4": 0,
+        "minus5": 0,
+        "minus6": 0,
+        "minus7": 0,
+        "minus8": 0
     }
 }

@@ -1,7 +1,7 @@
 body {
     background: #111;
     color: #888;
-    font-family: 'Homemade Apple', cursive;
+    font-family: 'PT Sans', sans-serif;
     margin-bottom: 10px;
 }
 
@@ -67,6 +67,7 @@ body {
 }
 
 .token-list span.count {
+    font-family: 'Homemade Apple', cursive;
     font-weight: bold;
     font-size: 1.2em;
     text-align: center;
