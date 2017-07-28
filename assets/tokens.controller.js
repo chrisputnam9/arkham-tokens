@@ -51,7 +51,7 @@
             $('.token-available').on('click', '.js-count-toggle', self.countToggle);
 
             // for dev/testing
-            $('.js-settings').trigger('click');
+            // $('.js-settings').trigger('click');
 
         },
 
