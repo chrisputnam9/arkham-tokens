@@ -37,7 +37,7 @@
                     <a class='js-save-settings save-settings glyphicon glyphicon-floppy-disk' href='#save-settings' title='Save'></a>
                 </div>
                 <div class='col-xs-3 col-sm-12 hidden'>
-                    <a class='js-share share glyphicon glyphicon-share' href='#share' title='Share'></a>
+                    <a class='js-share share glyphicon glyphicon-qrcode' href='#share' title='Share'></a>
                 </div>
                 <div class='col-xs-3 col-sm-12'>
                     <a class='js-lock lock disabled glyphicon glyphicon-lock' href='#lock' title='Lock'></a>
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class='col-xs-12 col-sm-1 ui ui-primary'>
+            <div class='col-xs-12 col-sm-2 ui ui-primary'>
                 <div class='col-xs-6 col-sm-12'>
                     <a class='js-draw draw glyphicon glyphicon-plus' href='#draw' title='Draw'></a>
                 </div>
@@ -56,12 +56,12 @@
                 </div>
             </div>
 
-            <div class='col-xs-12 col-sm-10'>
+            <div class='col-xs-12 col-sm-9 js-manual-return'>
                 <div class='js-view token-list token-current' data-view='token-current'>
                 <script type='text/x-handlebars-template'>
                     {{#each tokens}}
                         <div class='col-xs-{{../columns}}'>
-                            <img src='./assets/tokens/{{name}}.png' class='img-responsive img-token'/>
+                            <img src='./assets/tokens/{{name}}.png' class='img-responsive img-token' data-index='{{@index}}'/>
                         </div>
                     {{/each}}
                 </script>
@@ -80,6 +80,25 @@
                     </button>
                     {{#if title}}<h4>{{title}}</h4>{{/if}}
                     {{#if message}}<p>{{{message}}}</p>{{/if}}
+                    {{#if url}}
+                        <br>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-lg" value="{{url}}" readonly="readonly">
+                            <span class="input-group-btn">
+                                <a class="btn btn-lg btn-primary js-copy" href="{{url}}" target="_blank">
+                                    <span class="glyphicon glyphicon-copy"></span>
+                                    <b>Copy</b>
+                                </a>
+                                <a class="btn btn-lg btn-info" href="{{url}}" target="_blank">
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    <b>Open</b>
+                                </a>
+                            </span>
+                        </div>
+                    {{/if}}
+                    {{#if qr_code}}
+                        <p class="text-center"><img src="{{qr_code}}" width="150" height="150" alt="QR Code" title="QR Code" /></p>
+                    {{/if}}
                 </div>
             {{/each}}
         </script>

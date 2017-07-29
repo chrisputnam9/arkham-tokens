@@ -31,42 +31,58 @@
             }
         },
 
-        loadFrom: function (url, callback) {
+        getString: function (key) {
             var self = this;
+            return JSON.stringify({default:self.get(key)}).replace(/"/g, '\\"');
+        },
+
+        loadFrom: function (url, callback) {
+            var self = this,
+                data_string;
 
             // Grab the config
             $.getJSON(url, function (data) {
                 self.data = data;
+
+                // Update saveMap
+                data_string = self.getString();
+                self.saveMap[data_string] = document.location.toString();
+
                 callback(self);
             }).fail(function (request, error) {
                 console.error('Error: ' + error);
             });
         },
 
-        save: function (data, callback) {
+        save: function (key, callback) {
             var self = this,
-                content_json = {
-                    default: data
-                },
-                content_string = JSON.stringify(content_json).replace(/"/g, '\\"');
+                data_string = self.getString(key);
 
-            $.ajax({
-                url: 'https://api.github.com/gists',
-                method: 'POST',
-                data: '{"description":"chaos-token-settings","public":true,"files":{"settings":{"content":"'+content_string+'"}}}',
-                success: function (data) {
-                    var load_url = document.location.origin + document.location.pathname + '#/',
-                        raw_url = data.files.settings.raw_url,
-                        matches = raw_url.match(/anonymous\/([^\/]+)\/raw\/([^\/]+)\//);
+            // Check save map
+            if (data_string in self.saveMap) {
+                callback(self.saveMap[data_string]);
+            } else {
+                $.ajax({
+                    url: 'https://api.github.com/gists',
+                    method: 'POST',
+                    data: '{"description":"chaos-token-settings","public":true,"files":{"settings":{"content":"'+data_string+'"}}}',
+                    success: function (data) {
+                        var load_url = document.location.origin + document.location.pathname + '?c=',
+                            raw_url = data.files.settings.raw_url,
+                            matches = raw_url.match(/anonymous\/([^\/]+)\/raw\/([^\/]+)\//);
 
-                    load_url+= matches[1] + '/' + matches[2];
+                        load_url+= matches[1] + '/' + matches[2];
 
-                    callback(load_url);
-                },
-                error: function (jqXHR, status, error) {
-                    console.error(error + ': ' + jqXHR.responseText);
-                }
-            });
+                        // Update Save Map
+                        self.saveMap[data_string] = load_url;
+
+                        callback(load_url);
+                    },
+                    error: function (jqXHR, status, error) {
+                        console.error(error + ': ' + jqXHR.responseText);
+                    }
+                });
+            }
         }
     };
 

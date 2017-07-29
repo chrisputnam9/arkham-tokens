@@ -10,21 +10,43 @@
         configKey: 'default',
         configObj: null,
         config: null,
+
+        page: 'index',
         in_settings: false,
         
         messageView: null,
         drawnView: null,
         remainingView: null,
 
+        urlParams: {},
+
         // Parse info from URL
         route: function () {
             var self = Tokens.Controller,
-                hash = document.location.hash;
+                pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                search = /([^&=]+)=?([^&]*)/g,
+                decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                query  = window.location.search.substring(1),
+                matches, config_matches;
 
-            if (matches = hash.match(/^#\/([^\/]+)\/([^\/]+)$/)) {
-                Tokens.Config.url = 'https://gist.githubusercontent.com/anonymous/' + matches[1] + '/raw/' + matches[2] + '/settings';
-            } else if (matches = hash.match(/^#\/([^\/]+)$/)) {
-                self.configKey = matches[1];
+            while (matches = search.exec(query)) {
+                self.urlParams[decode(matches[1])] = decode(matches[2]);
+            }
+
+            // Config ID
+            if ('c' in self.urlParams) {
+                config_matches = self.urlParams.c.match(/^([^\/]+)\/([^\/]+)$/);
+                Tokens.Config.url = 'https://gist.githubusercontent.com/anonymous/' + config_matches[1] + '/raw/' + config_matches[2] + '/settings';
+            }
+
+            // Config Key
+            if ('k' in self.urlParams) {
+                self.configKey = self.urlParams.k;
+            }
+
+            // Page
+            if ('p' in self.urlParams) {
+                self.page = self.urlParams.p;
             }
 
             Tokens.Config.init(self.init);
@@ -47,11 +69,15 @@
             $('.js-reset').on('click', self.reset);
             $('.js-settings').on('click', self.settingsToggle);
             $('.js-save-settings, .js-share').on('click', self.saveSettings);
+
             $('.js-manual-draw').on('click', '.img-token.enabled', self.drawManual);
+            $('.js-manual-return').on('click', '.img-token', self.returnManual);
             $('.token-available').on('click', '.js-count-toggle', self.countToggle);
 
             // for dev/testing
-            // $('.js-settings').trigger('click');
+            if (self.page == 'settings') {
+                $('.js-settings').trigger('click');
+            }
 
         },
 
@@ -105,16 +131,42 @@
             Tokens.Controller.draw($(this).data('index'));
         },
 
-        draw(token)
+        returnManual: function (event) {
+            if (typeof(event) == 'object') {
+                event.preventDefault();
+            }
+
+            var self = Tokens.Controller,
+                index = $(this).data('index'),
+                removedArr,token;
+
+            removedArr = self.drawn.splice(index,1);
+            token = removedArr[0];
+            self.remainingFlat.push(token);
+            console.log(token);
+            self.remaining[token.index].count+= 1;
+
+            self.render();
+        },
+
+        draw: function (token)
         {
             var self = Tokens.Controller;
 
+            // if numeric, it is the array index
             if (typeof(token) == 'number') {
                 token = self.remaining[token];
             }
 
-            self.drawn.push({'name': token.name});
-            self.remainingFlat.splice(token.index, 1);
+            self.drawn.push(token);
+            var removedFlat = false;
+            self.remainingFlat = self.remainingFlat.filter(function (_token, index) {
+                if (!removedFlat && _token.index == token.index) {
+                    removedFlat = true;
+                    return false;
+                }
+                return true;
+            });
             self.remaining[token.index].count-= 1;
 
             self.render();
@@ -148,21 +200,37 @@
             self.alert('info', 'Saving...');
             $('.js-save-settings, .js-share').addClass('disabled');
 
-            self.configObj.save(self.config, (share ? self.alertShare : self.alertSave));
+            self.configObj.save(self.configKey, function (url) {
+                $('.js-save-settings, .js-share').removeClass('disabled');
+
+                if (share) {
+                    self.alertShare(url);
+                } else {
+                    self.alertSave(url);
+                }
+            });
         },
 
             alertSave: function (url) {
                 var self = Tokens.Controller;
-
-                $('.js-save-settings, .js-share').removeClass('disabled');
                 
-                self.alert('success', 'Saved Successfully', 'Your settings are saved and can be loaded or shared using the following URL.  Make sure to save or bookmark this URL for later use: <br><br> <input type="text" class="form-control" value="' + url + '" />');
+                self.alert({
+                    type: 'success',
+                    title: 'Saved Successfully',
+                    message: 'Your settings have been saved and can be loaded or shared using the following URL.<br><br><h4>Copy or bookmark this URL for later use.</h4>',
+                    url: url
+                });
             },
 
             // For now, the same, but could be different later
             alertShare: function (url) {
                 var self = Tokens.Controller;
-                self.alertSave(url);
+
+                self.alert({
+                    type: 'success',
+                    title: 'QR Code to Share Settings',
+                    qr_code: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + url
+                });
             },
 
         settingsToggle: function (event) {
@@ -228,6 +296,7 @@
             var self = Tokens.Controller;
             self.renderDrawn();
             self.renderRemaining();
+            $('.js-draw').toggleClass('disabled', self.remainingFlat.length == 0);    
         },
 
         renderDrawn: function () {
@@ -237,9 +306,9 @@
 
             if (drawnLength < 2) {
                 columns = 12;
-            } else if (drawnLength < 5) {
+            } else if (drawnLength < 3) {
                 columns = 6;
-            } else if (drawnLength < 10) {
+            } else if (drawnLength < 4) {
                 columns = 4;
             } else {
                 columns = 3;

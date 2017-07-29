@@ -30,4 +30,17 @@
         }, 200);
     });
 
+    // Bootstrap copy button
+    $('body').on('click', '.js-copy', function (event) {
+        event.preventDefault();
+
+        var $this = $(this),
+            $input = $this.closest('.input-group').find('input');
+
+        if ($input.length == 1) {
+            $input.select();
+            document.execCommand('copy');
+        }
+    });
+
 })(jQuery);
