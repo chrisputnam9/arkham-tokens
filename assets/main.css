@@ -170,6 +170,11 @@ body {
     padding: 15px;
 }
 
+.close {
+    font-size: 35px;
+    line-height: .6;
+}
+
 /**
  * Breakpoint Reference
  * https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css
