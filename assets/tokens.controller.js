@@ -245,7 +245,7 @@
 
             if (window.confirm('Reset data - are you sure?')) {
                 self.configObj.reset();
-                window.location = window.location.origin;
+                window.location = window.location.origin+window.location.pathname;
             }
         },
 
