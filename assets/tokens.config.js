@@ -8,15 +8,71 @@
 
         // URL
         url: './config.json',
+        customUrl: false,
         
         // Map json string => gist ID
         saveMap: {},
 
-        // Kick it
-        init: function (callback) {
-            var self = this;
+        // Cookie support
+        cookies: false,
 
+        // Kick it
+        init: function (_callback) {
+            var self = this,
+                callback;
+
+            try {
+                document.cookie = 'cookietest=1';
+                self.cookies = document.cookie.indexOf('cookietest=') != -1;
+                document.cookie = 'cookietest=1; expires=Thu, 01-Jan-1970 00:00:01 GMT';
+            } catch (e) {}
+
+            callback = function () {
+                self.updateCookie_data();
+
+                /*
+                // Pros and cons...
+                if (self.customUrl && self.cookies) {
+                    window.location = window.location.origin;
+                }
+                */
+
+                _callback(self);
+            }
+
+            // Load saveMap from cookies if any
+            var saveMap = Cookies.getJSON('tokens.config.saveMap');
+            if (typeof(saveMap) == 'object') {
+                self.saveMap = saveMap;
+            }
+            self.updateCookie_saveMap();
+
+            // Load from cookies if no save specified
+            if (!self.customUrl) {
+                self.data = Cookies.getJSON('tokens.config.data');
+                if (self.data) {
+                    callback();
+                    return;
+                }
+            }
+
+            // Load from URL if custom or no valid cookies
             self.loadFrom(self.url, callback);
+        },
+
+        reset: function () {
+            Cookies.remove('tokens.config.data');
+            Cookies.remove('tokens.config.saveMap');
+        },
+
+        updateCookie_data: function () {
+            var self = this;
+            Cookies.set('tokens.config.data', self.data,{expires: 365});
+        },
+
+        updateCookie_saveMap: function () {
+            var self = this;
+            Cookies.set('tokens.config.saveMap', self.saveMap,{expires: 365});
         },
 
         get: function (key) {
@@ -47,8 +103,9 @@
                 // Update saveMap
                 data_string = self.getString();
                 self.saveMap[data_string] = document.location.toString();
+                self.updateCookie_saveMap();
 
-                callback(self);
+                callback();
             }).fail(function (request, error) {
                 console.error('Error: ' + error);
             });
@@ -75,6 +132,7 @@
 
                         // Update Save Map
                         self.saveMap[data_string] = load_url;
+                        self.updateCookie_saveMap();
 
                         callback(load_url);
                     },

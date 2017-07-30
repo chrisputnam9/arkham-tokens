@@ -30,8 +30,12 @@
         <div class='col-xs-12 play-area'>
 
             <div class='col-xs-12 col-sm-1 ui ui-secondary'>
+
                 <div class='col-xs-3 col-sm-12'>
                     <a class='js-settings settings glyphicon glyphicon-cog' href='#settings' title='Settings'></a>
+                </div>
+                <div class='col-xs-3 col-sm-12 hidden'>
+                    <a class='js-reset-settings reset-settings glyphicon glyphicon-refresh' href='#reset-settings' title='Reset Settings (Clear Data and Reload Defaults)'></a>
                 </div>
                 <div class='col-xs-3 col-sm-12 hidden'>
                     <a class='js-save-settings save-settings glyphicon glyphicon-floppy-disk' href='#save-settings' title='Save'></a>
@@ -39,12 +43,14 @@
                 <div class='col-xs-3 col-sm-12 hidden'>
                     <a class='js-share share glyphicon glyphicon-qrcode' href='#share' title='Share'></a>
                 </div>
+
                 <div class='col-xs-3 col-sm-12'>
                     <a class='js-lock lock disabled glyphicon glyphicon-lock' href='#lock' title='Lock'></a>
                 </div>
                 <div class='col-xs-3 col-sm-12'>
                     <a class='js-help help disabled glyphicon glyphicon-question-sign' href='#help' title='Help'></a>
                 </div>
+
             </div>
 
             <div class='col-xs-12 col-sm-2 ui ui-primary'>
@@ -145,6 +151,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 

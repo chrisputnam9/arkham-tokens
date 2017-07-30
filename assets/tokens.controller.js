@@ -37,7 +37,9 @@
             if ('c' in self.urlParams) {
                 config_matches = self.urlParams.c.match(/^([^\/]+)\/([^\/]+)$/);
                 Tokens.Config.url = 'https://gist.githubusercontent.com/anonymous/' + config_matches[1] + '/raw/' + config_matches[2] + '/settings';
+                Tokens.Config.customUrl = true;
             }
+
 
             // Config Key
             if ('k' in self.urlParams) {
@@ -65,10 +67,12 @@
             self.configObj = configObj;
             self.config = self.configObj.get(self.configKey),
             self.reset();
+
             $('.js-draw').on('click', self.drawRandom);
             $('.js-reset').on('click', self.reset);
             $('.js-settings').on('click', self.settingsToggle);
             $('.js-save-settings, .js-share').on('click', self.saveSettings);
+            $('.js-reset-settings').on('click', self.resetSettings);
 
             $('.js-manual-draw').on('click', '.img-token.enabled', self.drawManual);
             $('.js-manual-return').on('click', '.img-token', self.returnManual);
@@ -143,7 +147,6 @@
             removedArr = self.drawn.splice(index,1);
             token = removedArr[0];
             self.remainingFlat.push(token);
-            console.log(token);
             self.remaining[token.index].count+= 1;
 
             self.render();
@@ -233,17 +236,34 @@
                 });
             },
 
+        resetSettings: function (event) {
+            if (typeof(event) == 'object') {
+                event.preventDefault();
+            }
+
+            var self = Tokens.Controller;
+
+            if (window.confirm('Reset data - are you sure?')) {
+                self.configObj.reset();
+                window.location = window.location.origin;
+            }
+        },
+
         settingsToggle: function (event) {
             if (typeof(event) == 'object') {
                 event.preventDefault();
             }
 
             var self = Tokens.Controller,
-                $button = $(this);
+                $button = $(this),
+                $play_area = $('.play-area'),
+                $play_links = $play_area.find('a');
             $button.toggleClass('glyphicon-cog');
             $button.toggleClass('glyphicon-ok');
             self.in_settings = !self.in_settings;
-            $('.play-area a').not('.js-settings').parent().toggleClass('hidden');
+            $play_area.find('.ui-secondary').toggleClass('col-sm-1');
+            $play_links.parent().toggleClass('col-sm-12');
+            $play_links.not('.js-settings').parent().toggleClass('hidden');
             $('.token-list.token-current').parent().toggleClass('hidden');
             self._reset();
             self.render();
@@ -263,6 +283,7 @@
                 if (self.config[token] < 0) {
                     self.config[token] = 0;
                 }
+                self.configObj.updateCookie_data();
             }
             self._reset();
             self.render();
