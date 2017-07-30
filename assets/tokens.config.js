@@ -102,8 +102,11 @@
 
                 // Update saveMap
                 data_string = self.getString();
+                /*
+                 Problematic with cookies:
                 self.saveMap[data_string] = document.location.toString();
                 self.updateCookie_saveMap();
+                */
 
                 callback();
             }).fail(function (request, error) {
